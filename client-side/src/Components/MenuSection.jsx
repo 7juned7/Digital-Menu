@@ -17,26 +17,28 @@ const MenuSection = () => {
                 <button className='px-1.5 py-1 md:px-4 md:py-2 bg-[#FFD700] font-medium hover:bg-gray-300'>Desserts</button>
                 <button className='px-1.5 py-1 md:px-4 md:py-2 bg-[#FFD700] font-medium hover:bg-gray-300'>Drinks</button>
             </div>
-
-
-            {/* Menu Items Section */}
-            <div className=' flex flex-wrap gap-4 mb-4 w-full'>
+            <div className="grid grid-cols-2 gap-4 mb-4 w-full">
                 {menuItems.map((item) => (
                     <div
                         key={item.id}
-                        className=" w-[210px] pb-2 bg-[#1a1a1a] text-white rounded-lg shadow-lg flex flex-col "
+                        className="w-full pb-2 bg-[#1a1a1a] text-white rounded-lg shadow-lg flex flex-col"
                     >
                         <img
                             src={item.image}
                             alt={item.name}
                             className="w-full h-40 object-cover rounded-md mb-3"
                         />
-                        <h3 className="text-lg  px-2 font-semibold">{item.name}</h3>
-                        <p className="text-sm px-2  text-gray-400">{item.category}</p>
-                        <p className="font-bold px-2  text-yellow-400">{item.price}</p>
-
+                        <h3 className="text-lg px-2 font-semibold">{item.name}</h3>
+                        <p className="text-sm px-2 text-gray-400">{item.category}</p>
+                        <p className="font-bold px-2 text-yellow-400">{item.price}</p>
                     </div>
                 ))}
+            </div>
+
+
+            {/* Menu Items Section */}
+            <div className=' flex flex-wrap gap-4 mb-4 w-full'>
+
                 {menuItems.map((item) => (
                     <div
                         key={item.id}

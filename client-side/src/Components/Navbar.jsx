@@ -56,97 +56,101 @@ const Navbar = () => {
     }, []);
 
     return (
-        <div className="relative min-h-65 text-white py-5 px-3 md:px-6 flex justify-between">
-            {/* Background Image with Overlay */}
-            <div className="absolute inset-0 w-full h-65 bg-black opacity-50 -z-10"></div>
-            <img className="absolute inset-0 w-full h-65 object-cover -z-20" src={navData.banner} alt="banner" />
+        <>
+            <div onClick={() => setIsAdmin(prev => !prev)}>Admin View</div>
+            <div className="relative min-h-65 text-white py-5 px-3 md:px-6 flex justify-between">
 
-            <div className="flex w-full h-10 justify-between items-center">
-                {/* Logo (Editable by Admin) */}
-                <div className="relative flex items-center h-15 w-20">
-                    <label htmlFor="logoUpload" className="cursor-pointer">
-                        {navData.logo ? (
-                            <img src={navData.logo} alt="Logo" className="h-15 w-15 object-contain" />
-                        ) : (
-                            <span className="flex justify-center items-center h-16 w-16 bg-gray-300 rounded-full">
-                                <FaCamera className="text-gray-500" />
-                            </span>
-                        )}
-                    </label>
-                    {isAdmin && (
-                        <input type="file" accept="image/*" id="logoUpload" className="hidden" onChange={handleImageChange} />
-                    )}
-                </div>
+                {/* Background Image with Overlay */}
+                <div className="absolute inset-0 w-full h-65 bg-black opacity-50 -z-10"></div>
+                <img className="absolute inset-0 w-full h-65 object-cover -z-20" src={navData.banner} alt="banner" />
 
-                {/* Navigation Links */}
-                <ul className="flex gap-6 font-medium">
-                    <li className="hover:text-gray-300 cursor-pointer">Home</li>
-                    <li className="hover:text-gray-300 cursor-pointer">Menu</li>
-                    <li className="hover:text-gray-300 cursor-pointer">Contact Us</li>
-                    <li className="hover:text-gray-300 cursor-pointer flex justify-center items-center"><FaInstagram className="text-lg " /></li>
-                </ul>
-            </div>
-
-
-
-            {/* Bottom Centered Text (Editable by Admin) */}
-            <div className="absolute flex flex-col gap-4 w-full px-2 items-center bottom-5 left-1/2 transform -translate-x-1/2">
-                {/* Change Banner Button (Only for Admin) */}
-                {isAdmin && (
-                    <div className="flex justify-center items-center mt-4">
-                        <label
-                            htmlFor="bannerUpload"
-                            className="cursor-pointer absolute px-4 mb-4 py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-700 transition"
-                        >
-                            Change Background
+                <div className="flex w-full h-10 justify-between items-center">
+                    {/* Logo (Editable by Admin) */}
+                    <div className="relative flex items-center h-15 w-20">
+                        <label htmlFor="logoUpload" className="cursor-pointer">
+                            {navData.logo ? (
+                                <img src={navData.logo} alt="Logo" className="h-15 w-15 object-contain" />
+                            ) : (
+                                <span className="flex justify-center items-center h-16 w-16 bg-gray-300 rounded-full">
+                                    <FaCamera className="text-gray-500" />
+                                </span>
+                            )}
                         </label>
-                        <input type="file" accept="image/*" id="bannerUpload" className="hidden" onChange={handleBannerChange} />
+                        {isAdmin && (
+                            <input type="file" accept="image/*" id="logoUpload" className="hidden" onChange={handleImageChange} />
+                        )}
                     </div>
-                )}
-                <div className="flex w-fit relative justify-center items-center gap-4">
-                    {editingField === "heading" ? (
-                        <input
-                            ref={inputRef}
-                            className="text-2xl font-bold bg-transparent border-b border-gray-300 outline-none"
-                            autoFocus
-                            value={navData.heading}
-                            onChange={(e) => handleTextChange("heading", e.target.value)}
-                        />
-                    ) : (
-                        <h2 className="text-2xl font-bold">{navData.heading}</h2>
-                    )}
-                    {isAdmin && (
-                        <FaEdit
-                            className="absolute -top-1.5 -right-3.5 text-[14px] text-gray-300 cursor-pointer"
-                            onClick={() => setEditingField("heading")}
-                        />
-                    )}
+
+                    {/* Navigation Links */}
+                    <ul className="flex gap-6 font-medium">
+                        <li className="hover:text-gray-300 cursor-pointer">Home</li>
+                        <li className="hover:text-gray-300 cursor-pointer">Menu</li>
+                        <li className="hover:text-gray-300 cursor-pointer">Contact Us</li>
+                        <li className="hover:text-gray-300 cursor-pointer flex justify-center items-center"><FaInstagram className="text-lg " /></li>
+                    </ul>
                 </div>
 
 
-                <div className="flex justify-center gap-2 relative">
-                    {editingField === "paragraph" ? (
-                        <input
-                            ref={inputRef}
-                            className="text-sm font-extralight bg-transparent border-b border-gray-300 outline-none"
-                            autoFocus
-                            value={navData.paragraph}
-                            onChange={(e) => handleTextChange("paragraph", e.target.value)}
-                        />
-                    ) : (
-                        <p className="text-sm font-extralight">{navData.paragraph}</p>
-                    )}
+
+                {/* Bottom Centered Text (Editable by Admin) */}
+                <div className="absolute flex flex-col gap-4 w-full px-2 items-center bottom-5 left-1/2 transform -translate-x-1/2">
+                    {/* Change Banner Button (Only for Admin) */}
                     {isAdmin && (
-                        <FaEdit
-                            className="absolute -top-1.5 -right-3.5 text-[14px] text-gray-300 cursor-pointer"
-                            onClick={() => setEditingField("paragraph")}
-                        />
+                        <div className="flex justify-center items-center mt-4">
+                            <label
+                                htmlFor="bannerUpload"
+                                className="cursor-pointer absolute px-4 mb-4 py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-700 transition"
+                            >
+                                Change Background
+                            </label>
+                            <input type="file" accept="image/*" id="bannerUpload" className="hidden" onChange={handleBannerChange} />
+                        </div>
                     )}
+                    <div className="flex w-fit relative justify-center items-center gap-4">
+                        {editingField === "heading" ? (
+                            <input
+                                ref={inputRef}
+                                className="text-2xl font-bold bg-transparent border-b border-gray-300 outline-none"
+                                autoFocus
+                                value={navData.heading}
+                                onChange={(e) => handleTextChange("heading", e.target.value)}
+                            />
+                        ) : (
+                            <h2 className="text-2xl font-bold">{navData.heading}</h2>
+                        )}
+                        {isAdmin && (
+                            <FaEdit
+                                className="absolute -top-1.5 -right-3.5 text-[14px] text-gray-300 cursor-pointer"
+                                onClick={() => setEditingField("heading")}
+                            />
+                        )}
+                    </div>
+
+
+                    <div className="flex justify-center gap-2 relative">
+                        {editingField === "paragraph" ? (
+                            <input
+                                ref={inputRef}
+                                className="text-sm font-extralight bg-transparent border-b border-gray-300 outline-none"
+                                autoFocus
+                                value={navData.paragraph}
+                                onChange={(e) => handleTextChange("paragraph", e.target.value)}
+                            />
+                        ) : (
+                            <p className="text-sm font-extralight">{navData.paragraph}</p>
+                        )}
+                        {isAdmin && (
+                            <FaEdit
+                                className="absolute -top-1.5 -right-3.5 text-[14px] text-gray-300 cursor-pointer"
+                                onClick={() => setEditingField("paragraph")}
+                            />
+                        )}
+                    </div>
+
+
                 </div>
-
-
             </div>
-        </div>
+        </>
     );
 };
 
