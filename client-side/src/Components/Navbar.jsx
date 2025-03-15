@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { FaCamera, FaEdit, FaInstagram } from "react-icons/fa";
 import bannerImg from "../assets/banner.svg";
 
-const Navbar = () => {
+const Navbar = ({ isAdmin, setIsAdmin }) => {
     const [navData, setNavData] = useState({
         logo: null,
         banner: bannerImg,
@@ -14,7 +14,7 @@ const Navbar = () => {
     const inputRef = useRef(null); // Reference for input field
 
     // Mock isAdmin state (Replace this with actual authentication logic)
-    const [isAdmin, setIsAdmin] = useState(false); // Change to false to hide edit features
+    // Change to false to hide edit features
 
     // Handle text updates
     const handleTextChange = (key, value) => {
@@ -83,9 +83,8 @@ const Navbar = () => {
 
                     {/* Navigation Links */}
                     <ul className="flex gap-6 font-medium">
-                        <li className="hover:text-gray-300 cursor-pointer">Home</li>
-                        <li className="hover:text-gray-300 cursor-pointer">Menu</li>
-                        <li className="hover:text-gray-300 cursor-pointer">Contact Us</li>
+
+                        <li className="hover:text-gray-300 cursor-pointer">+91 8376962083</li>
                         <li className="hover:text-gray-300 cursor-pointer flex justify-center items-center"><FaInstagram className="text-lg " /></li>
                     </ul>
                 </div>

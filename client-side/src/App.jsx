@@ -1,16 +1,16 @@
 
 import './App.css'
-import Footer from './Components/Footer'
-import MenuSection from './Components/MenuSection'
+
 import HomePage from './Pages/HomePage'
+import Register from './Pages/Register'
 
 function App() {
 
   return (
     <>
+      <Register />
       <HomePage />
-      <MenuSection />
-      <Footer />
+
     </>
   )
 }
