@@ -136,7 +136,7 @@ const Navbar = ({ isAdmin, setIsAdmin }) => {
                                 onChange={(e) => handleTextChange("paragraph", e.target.value)}
                             />
                         ) : (
-                            <p className="text-sm font-extralight">{navData.paragraph}</p>
+                            <p className="text-sm text-center font-extralight">{navData.paragraph}</p>
                         )}
                         {isAdmin && (
                             <FaEdit

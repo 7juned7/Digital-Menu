@@ -59,14 +59,16 @@ const MenuSection = ({ isAdmin }) => {
             {menuStyle === "style-1" && (
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-3 mb-4 w-full">
                     {menuItems.map((item) => (
-                        <div key={item.id} className="relative w-full bg-[#FFD700] text-black shadow-lg">
-                            {/* Image with Bottom Faded Effect */}
-                            <div className="relative w-full h-40">
+                        <div key={item.id} className="relative w-full shadow-lg  overflow-hidden">
+
+                            {/* Image Section (Prevent Yellow Background Overflow) */}
+                            <div className="relative w-full h-36 bg-white">
                                 <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
                                 <div className="absolute bottom-0 left-0 w-full h-2 bg-gradient-to-b from-transparent to-[#FFD700]"></div>
                             </div>
-                            {/* Food Info */}
-                            <div className="p-3 flex justify-between items-center">
+
+                            {/* Food Info Section (Keep Yellow Background Here) */}
+                            <div className="bg-[#FFD700] p-3 flex justify-between items-center">
                                 <h3 className="text-sm sm:text-base md:text-lg lg:text-xl font-semibold">{item.name}</h3>
                                 <p className="font-bold text-[#1a1a1a] text-xs sm:text-sm md:text-base lg:text-lg">{item.price}</p>
                             </div>
@@ -75,23 +77,24 @@ const MenuSection = ({ isAdmin }) => {
                 </div>
             )}
 
+
             {/* Stacked Style (style-2) */}
             {menuStyle === "style-2" && (
                 <div className="flex flex-wrap gap-4 mb-4 w-full">
                     {menuItems.map((item) => (
                         <div
                             key={item.id}
-                            className="flex w-full bg-[#2a2a2a] text-white shadow-lg p-4 rounded-lg space-x-4"
+                            className="flex w-full bg-[#2a2a2a] text-white shadow-lg rounded-lg"
                         >
-                            {/* Food Image */}
+                            {/* Bigger Food Image */}
                             <img
                                 src={item.image}
                                 alt={item.name}
-                                className="w-24 h-24 object-cover rounded-md border-2 border-yellow-400"
+                                className="w-32 h-32 object-cover border-2 border-yellow-400"
                             />
 
-                            {/* Food Details */}
-                            <div className="flex-1 flex flex-col justify-center">
+                            {/* Food Details with Margin */}
+                            <div className="flex-1 flex flex-col justify-center ml-4">
                                 <h3 className="text-sm sm:text-base md:text-lg lg:text-xl font-semibold">{item.name}</h3>
                                 <p className="font-bold text-[#FFD700] text-xs sm:text-sm md:text-base lg:text-lg">{item.price}</p>
                             </div>
@@ -101,25 +104,26 @@ const MenuSection = ({ isAdmin }) => {
             )}
 
 
+
             {/* Zigzag Style (style-3) */}
+
             {menuStyle === "style-3" && (
                 <div className="flex flex-wrap gap-4 mb-4 w-full">
                     {menuItems.map((item, index) => (
                         <div
                             key={item.id}
-                            className={`flex w-full shadow-lg p-3 rounded-md 
-                ${index % 2 === 0 ? "flex-row bg-[#2a2a2a]" : "flex-row-reverse bg-[#3a3a3a]"}`
-                            }>
-
+                            className={`flex w-full shadow-lg rounded-md 
+                ${index % 2 === 0 ? "flex-row bg-[#2a2a2a]" : "flex-row-reverse bg-[#3a3a3a]"}`}
+                        >
                             {/* Food Image */}
                             <img
                                 src={item.image}
                                 alt={item.name}
-                                className="w-24 h-24 object-cover rounded-md border-2 border-yellow-400"
+                                className="w-32 h-32 object-cover  border-2 border-yellow-400"
                             />
 
                             {/* Food Details */}
-                            <div className="flex-1">
+                            <div className="flex-1 mt-4">
                                 <h3 className="text-sm sm:text-base md:text-lg lg:text-xl px-4 font-semibold text-white">{item.name}</h3>
                                 <p className="font-bold px-4 text-[#FFD700] text-xs sm:text-sm md:text-base lg:text-lg">{item.price}</p>
                             </div>
