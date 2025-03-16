@@ -51,24 +51,7 @@ const MenuSection = ({ isAdmin }) => {
 
             {/* Add Food Modal */}
             <AddFood flag={flag} setFlag={setFlag} />
-            {menuStyle === "style-1" && (
-                <div className="grid grid-cols-3 gap-3 mb-4 w-full">
-                    {menuItems.map((item) => (
-                        <div key={item.id} className="relative w-full bg-[#FFD700] text-black shadow-lg rounded-lg overflow-hidden">
-                            {/* Smaller Image with Bottom Faded Effect */}
-                            <div className="relative w-full h-28"> {/* Decreased height */}
-                                <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
-                                <div className="absolute bottom-0 left-0 w-full h-8 bg-gradient-to-b from-transparent to-[#FFD700]"></div> {/* Adjusted fade size */}
-                            </div>
-                            {/* Food Info */}
-                            <div className="p-2 flex justify-between items-center"> {/* Decreased padding */}
-                                <h3 className="text-xs sm:text-sm md:text-lg lg:text-xl font-semibold">{item.name}</h3> {/* Adjusted font sizes */}
-                                <p className="font-bold text-[#1a1a1a] text-xs sm:text-sm md:text-base lg:text-lg">{item.price}</p>
-                            </div>
-                        </div>
-                    ))}
-                </div>
-            )}
+
 
 
 
@@ -80,7 +63,7 @@ const MenuSection = ({ isAdmin }) => {
                             {/* Image with Bottom Faded Effect */}
                             <div className="relative w-full h-40">
                                 <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
-                                <div className="absolute bottom-0 left-0 w-full h-10 bg-gradient-to-b from-transparent to-[#FFD700]"></div>
+                                <div className="absolute bottom-0 left-0 w-full h-2 bg-gradient-to-b from-transparent to-[#FFD700]"></div>
                             </div>
                             {/* Food Info */}
                             <div className="p-3 flex justify-between items-center">
