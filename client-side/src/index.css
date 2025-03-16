@@ -1,1 +1,10 @@
 @import "tailwindcss";
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Montserrat:wght@300;600&display=swap");
+
+body {
+  font-family: "Playfair Display", serif;
+}
+h1,
+h2 {
+  font-family: "Montserrat", sans-serif;
+}

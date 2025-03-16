@@ -17,10 +17,10 @@ const Register = () => {
     };
 
     return (
-        <div className="flex justify-center items-center min-h-screen bg-[#800020]">
+        <div className="flex justify-center items-center min-h-screen bg-[#800020] px-4">
             <form
                 onSubmit={handleSubmit}
-                className="bg-[#1a1a1a] p-6 rounded-lg shadow-lg w-80 text-white"
+                className="bg-[#1a1a1a] p-6 rounded-lg shadow-lg w-[90%] max-w-[320px] text-white"
             >
                 <h2 className="text-2xl text-[#FFD700] font-bold text-center mb-4">Register</h2>
 
@@ -34,7 +34,7 @@ const Register = () => {
                     required
                 />
 
-                <label className="block mb-2 text-[#FFD700] ">Password</label>
+                <label className="block mb-2 text-[#FFD700]">Password</label>
                 <input
                     type="password"
                     name="password"
@@ -46,7 +46,7 @@ const Register = () => {
 
                 <button
                     type="submit"
-                    className="w-full bg-[#FFD700]  text-[#1a1a1a] font-bold py-2 rounded-md transition"
+                    className="w-full bg-[#FFD700] text-[#1a1a1a] font-bold py-2 rounded-md transition"
                 >
                     Register
                 </button>

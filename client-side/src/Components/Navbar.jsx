@@ -64,14 +64,14 @@ const Navbar = ({ isAdmin, setIsAdmin }) => {
                 <div className="absolute inset-0 w-full h-65 bg-black opacity-50 -z-10"></div>
                 <img className="absolute inset-0 w-full h-65 object-cover -z-20" src={navData.banner} alt="banner" />
 
-                <div className="flex w-full h-10 justify-between items-center">
+                <div className="flex w-full  justify-between items-start">
                     {/* Logo (Editable by Admin) */}
-                    <div className="relative flex items-center h-15 w-20">
+                    <div className="relative flex items-center h-20 w-20">
                         <label htmlFor="logoUpload" className="cursor-pointer">
                             {navData.logo ? (
-                                <img src={navData.logo} alt="Logo" className="h-15 w-15 object-contain" />
+                                <img src={navData.logo} alt="Logo" className="h-20 w-20 object-contain rounded-full" />
                             ) : (
-                                <span className="flex justify-center items-center h-16 w-16 bg-gray-300 rounded-full">
+                                <span className="flex justify-center items-center h-20 w-20 bg-gray-300 rounded-full">
                                     <FaCamera className="text-gray-500" />
                                 </span>
                             )}
@@ -82,7 +82,7 @@ const Navbar = ({ isAdmin, setIsAdmin }) => {
                     </div>
 
                     {/* Navigation Links */}
-                    <ul className="flex gap-6 font-medium">
+                    <ul className="flex gap-6 font-medium mt-2">
 
                         <li className="hover:text-gray-300 cursor-pointer">+91 8376962083</li>
                         <li className="hover:text-gray-300 cursor-pointer flex justify-center items-center"><FaInstagram className="text-lg " /></li>
