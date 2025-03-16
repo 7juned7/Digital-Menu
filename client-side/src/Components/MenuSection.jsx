@@ -7,6 +7,7 @@ import { useState } from 'react';
 // import "swiper/css/pagination"; // ✅ Import styles for pagination
 
 import biryani from "../assets/FoodImages/pizza.png"
+import AddFood from './AddFood';
 const MenuSection = ({ isAdmin }) => {
     const menuItems = [
         { id: 1, name: 'Margherita Pizza', category: 'Main Course', price: '$12', image: biryani },
@@ -14,6 +15,7 @@ const MenuSection = ({ isAdmin }) => {
         { id: 3, name: 'Chocolate Lava Cake', category: 'Desserts', price: '$10', image: biryani },
         { id: 4, name: 'Mojito', category: 'Drinks', price: '$6', image: biryani },
     ];
+    const [flag, setFlag] = useState(false)
     const [menuStyle, setMenuStyle] = useState("style-3")
     return (
         <div className='p-6 bg-[#800020]'>
@@ -25,31 +27,43 @@ const MenuSection = ({ isAdmin }) => {
                 <button className='px-1.5 py-1 md:px-4 md:py-2 bg-[#FFD700] font-medium hover:bg-gray-300'>Desserts</button>
                 <button className='px-1.5 py-1 md:px-4 md:py-2 bg-[#FFD700] font-medium hover:bg-gray-300'>Drinks</button>
             </div>
-            {isAdmin && (
-                <div className=" my-10 text-center">
-                    <h2 className="text-lg text-white font-semibold mb-2">Select Menu Design</h2>
-                    <div className="flex gap-4 items-center justify-center">
-                        <button
-                            className="px-4 py-2 bg-[#FFD700]  rounded-md transition"
-                            onClick={() => setMenuStyle("style-1")}
-                        >
-                            Grid
-                        </button>
-                        <button
-                            className="px-4 py-2 bg-[#FFD700]  rounded-md transition"
-                            onClick={() => setMenuStyle("style-2")}
-                        >
-                            Stacked
-                        </button>
-                        <button
-                            className="px-4 py-2 bg-[#FFD700] rounded-md transition"
-                            onClick={() => setMenuStyle("style-3")}
-                        >
-                            Zigzag
-                        </button>
-                    </div>
+            <div>
+                <div className='flex  justify-between w-full items-center' >
+
+
+                    {isAdmin && (
+                        <>
+                            <button onClick={() => setFlag(prev => !prev)} className='px-8 py-2 bg-[#FFD700] text-black rounded-md transition duration-300 ease-in-out
+                   hover:bg-[#FFC107] focus:outline-none
+                   shadow-md cursor-pointer  border-yellow-600"'>Add Food</button>
+                            <div className="my-4 text-center">
+                                <select
+                                    className="px-4 py-2 bg-[#FFD700] text-black rounded-md transition duration-300 ease-in-out 
+                   hover:bg-[#FFC107] focus:ring-2 focus:ring-[#FFD700] focus:outline-none 
+                   shadow-md cursor-pointer border border-yellow-600"
+                                    value={menuStyle}
+                                    onChange={(e) => setMenuStyle(e.target.value)}
+                                >
+                                    <option value="style-1">🔲 Grid</option>
+                                    <option value="style-2">📄 Stacked</option>
+                                    <option value="style-3">🌀 Zigzag</option>
+                                </select>
+                            </div>
+
+                        </>
+                    )}
                 </div>
-            )}
+                <div>
+                    <AddFood
+                        flag={flag}
+                        setFlag={setFlag} />
+
+
+                </div>
+
+
+            </div>
+
 
 
 
