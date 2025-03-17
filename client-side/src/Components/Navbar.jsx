@@ -57,7 +57,18 @@ const Navbar = ({ isAdmin, setIsAdmin }) => {
 
     return (
         <>
-            <div onClick={() => setIsAdmin(prev => !prev)}>Admin View</div>
+            <div
+                className="absolute bottom-4 right-4 flex items-center justify-center w-12 h-12 bg-gray-800 text-white text-lg rounded-full cursor-pointer hover:bg-gray-700 transition shadow-lg"
+                onClick={() => setIsAdmin(prev => !prev)}
+            >
+                {isAdmin ? (
+                    <span className="text-yellow-400">⚙️</span>  // Admin Icon
+                ) : (
+                    <span className="text-blue-400">✏️</span>  // Edit Icon
+                )}
+            </div>
+
+
             <div className="relative min-h-65 text-white py-5 px-3 md:px-6 flex justify-between">
 
                 {/* Background Image with Overlay */}
