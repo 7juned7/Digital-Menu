@@ -5,20 +5,18 @@ export const RestaurantContexts = createContext();
 
 export const RestaurantsProvider = ({ children }) => {
     const [restaurantId, setRestaurantId] = useState(null);
-    const [role, setRole] = useState("user")
-    console.log(localStorage)
+    const [role, setRole] = useState("user");
 
     useEffect(() => {
+        try {
+            const token = localStorage.getItem("authToken"); // Get token
+            if (!token) return; // Exit if no token found
 
-        // Get token from local storage (or session storage)
-        const token = localStorage.getItem("authToken");
-        console.log(token)
-        if (token) {
-            console.log(token)
             const decodedToken = jwtDecode(token); // Decode JWT
-            console.log(decodedToken)
-            setRestaurantId(decodedToken.id); // Extract restaurantId
-            setRole(decodedToken.role)
+            if (decodedToken?.id) setRestaurantId(decodedToken.id); // Extract restaurantId
+            if (decodedToken?.role) setRole(decodedToken.role); // Extract role
+        } catch (error) {
+            console.error("Invalid or expired token:", error);
         }
     }, []);
 
