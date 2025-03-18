@@ -8,7 +8,7 @@ import cors from "cors";
 import { config } from "dotenv";
 
 config();
-const PORT = 5001;
+const PORT = 5000;
 const app = express();
 app.use(cors());
 
@@ -128,15 +128,12 @@ app.put(
             // Add the transformed colors object to req.body
             req.body.colors = colors;
 
-            // console.log(req.body); // Debugging: Check incoming data
-            // console.log(colors);
-
-            // ✅ Handle image uploads
+            // Handle image uploads
             const files = req.files as { [fieldname: string]: Express.Multer.File[] } | undefined;
             const profilePicture = files?.profilePicture?.[0]?.buffer.toString("base64");
             const bannerPicture = files?.bannerPicture?.[0]?.buffer.toString("base64");
 
-            // ✅ Update restaurant profile
+            // Update restaurant profile
             const updatedRestaurant = await Restaurant.findByIdAndUpdate(
                 restaurantId,
                 {
@@ -173,7 +170,7 @@ app.put("/api/additem", authenticate, upload.single("image"), async (req: Reques
         const image = req.file ? req.file.buffer.toString("base64") : undefined;
 
         // Validate required fields
-        if (!name || !category || !price || availability === undefined) {
+        if (!name || !category || !foodType || !price || availability === undefined) {
             return res.status(400).json({ message: "Name, category, price, and availability are required" });
         }
 
@@ -216,8 +213,80 @@ app.put("/api/additem", authenticate, upload.single("image"), async (req: Reques
     }
 });
 
+app.put(
+    "/api/menu/:id",
+    authenticate,
+    upload.single("image"), // Handle image upload
+    async (req: Request, res: Response): Promise<any> => {
+        try {
+            const { id } = req.params; // Get menu item ID from URL
+            const { name, description, category, foodType, price, availability } = req.body;
+
+            // Validate input
+            if (!name && !description && !category && !foodType && !price && availability === undefined && !req.file) {
+                return res.status(400).json({ message: "At least one field is required to update" });
+            }
+
+            // Handle image upload
+            const image = req.file ? req.file.buffer.toString("base64") : undefined;
+
+            // Prepare update object
+            const updateFields: any = {};
+            if (name) updateFields.name = name;
+            if (description) updateFields.description = description;
+            if (category) updateFields.category = category;
+            if (foodType) updateFields.foodType = foodType;
+            if (price) updateFields.price = price;
+            if (availability !== undefined) updateFields.availability = availability;
+            if (image) updateFields.image = image;
+
+            // Find and update the menu item
+            const updatedMenuItem = await Menu.findByIdAndUpdate(id, updateFields, { new: true, runValidators: true });
+
+            if (!updatedMenuItem) {
+                return res.status(404).json({ message: "Menu item not found" });
+            }
+
+            res.status(200).json({ message: "Menu item updated successfully", updatedMenuItem });
+
+        } catch (error) {
+            console.error("Error updating menu item:", error);
+            res.status(500).json({ message: "Internal Server Error", error });
+        }
+    }
+);
+
+app.delete("/api/menu/:itemId", authenticate, async (req: Request, res: Response): Promise<any> => {
+    try {
+        const { itemId } = req.params;
+        const restaurantId = (req as any).restaurant.id;
+
+        // Check if the dish exists
+        const item = await Menu.findById(itemId);
+        if (!item) {
+            return res.status(404).json({ message: "item not found" });
+        }
+
+        // Remove dish from the menu collection
+        await Menu.findByIdAndDelete(itemId);
+
+        // Remove dish reference from the restaurant's menu array
+        await Restaurant.findByIdAndUpdate(
+            restaurantId,
+            { $pull: { menu: itemId } },
+            { new: true }
+        );
+
+        res.status(200).json({ message: "Item deleted successfully" });
+
+    } catch (error) {
+        console.error("Error deleting item:", error);
+        res.status(500).json({ message: "Internal Server Error", error });
+    }
+});
+
 // Get restaurant details without menu
-app.get("/api/restaurant/:id", async (req:Request, res: Response): Promise<any> => {
+app.get("/api/:id", async (req:Request, res: Response): Promise<any> => {
     try {
         const { id } = req.params;
         console.log(id)
