@@ -100,6 +100,26 @@ app.post("/api/login", async (req: Request, res: Response): Promise<any> => {
         res.status(500).json({ message: "Server error❌", error });
     }
 });
+// get resturant info
+app.get("/api/restaurant", authenticate, async (req:Request, res: Response): Promise<any> => {
+    try {
+        
+        const restaurantId = (req as any).restaurant.id;
+        console.log(restaurantId)
+        
+        // Find the restaurant and exclude 'menu' field
+        const restaurant = await Restaurant.findById(restaurantId).select("-menu -password");
+
+        if (!restaurant) {
+            return res.status(404).json({ message: "Restaurant not found" });
+        }
+
+        res.status(200).json(restaurant);
+    } catch (error) {
+        console.error("Error fetching restaurant:", error);
+        res.status(500).json({ message: "Internal Server Error❌" });
+    }
+});
 
 // Update restaurant profile (excluding email, password, and menu)
 app.put(

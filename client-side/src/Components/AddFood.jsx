@@ -106,14 +106,22 @@ const AddFood = ({ addFood, flag, setFlag }) => {
                         onChange={handleChange}
                         className="px-4 py-2 bg-gray-800 rounded-md"
                     />
-                    <input
-                        type="text"
+                    <select
                         name="category"
-                        placeholder="Category"
                         value={foodData.category}
                         onChange={handleChange}
-                        className="px-4 py-2 bg-gray-800 rounded-md"
-                    />
+                        className="px-4 py-2 bg-gray-800 rounded-md text-white"
+                    >
+                        <option value="" disabled>
+                            Select Category
+                        </option>
+                        <option value="Starter">Starter</option>
+                        <option value="Main Course">Main Course</option>
+                        <option value="Dessert">Dessert</option>
+                        <option value="Beverage">Beverage</option>
+                        <option value="Fast Food">Fast Food</option>
+                    </select>
+
                     <input
                         type="number"
                         name="price"

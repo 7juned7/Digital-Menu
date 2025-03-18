@@ -11,20 +11,25 @@ const Navbar = ({ isAdmin, setIsAdmin }) => {
         logoFile: null,
         banner: bannerImg,
         bannerFile: null,
-        heading: "Explore Our Delicious Menu",
-        description: "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
+        phone: null,
+        instagram: null,
+        heading: null,
+        description: null,
         colors: { dark: "#000000", light: "#ffffff" },
     });
 
     const [editingField, setEditingField] = useState(null);
     const headingRef = useRef(null);
     const descriptionRef = useRef(null);
+    const phoneRef = useRef(null);
+    const instagramRef = useRef(null);
 
     // Save changes to localStorage
     useEffect(() => {
+        if (!restaurantId) return
         const fetchNavData = async () => {
             try {
-                const response = await fetch(`http://localhost:5001/api/restaurant/${restaurantId}`, {
+                const response = await fetch(`http://localhost:5001/api/restaurant`, {
                     method: "GET",
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem("authToken")}`,
@@ -38,6 +43,8 @@ const Navbar = ({ isAdmin, setIsAdmin }) => {
                         logo: data.profilePicture ? `data: image / png; base64, ${data.profilePicture} ` : null,
                         banner: data.bannerPicture ? `data: image / png; base64, ${data.bannerPicture} ` : bannerImg,
                         heading: data.name || "Explore Our Delicious Menu",
+                        phone: data.phone || "+91 8762340134",
+                        instagram: data.instagram || "7juned7",
                         description: data.description || "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
                         colors: data.colors || { dark: "#000000", light: "#ffffff" },
                     });
@@ -58,7 +65,9 @@ const Navbar = ({ isAdmin, setIsAdmin }) => {
         const handleClickOutside = (event) => {
             if (
                 (editingField === "heading" && headingRef.current && !headingRef.current.contains(event.target)) ||
-                (editingField === "description" && descriptionRef.current && !descriptionRef.current.contains(event.target))
+                (editingField === "description" && descriptionRef.current && !descriptionRef.current.contains(event.target)) ||
+                (editingField === "phone" && phoneRef.current && !phoneRef.current.contains(event.target)) ||
+                (editingField === "instagram" && instagramRef.current && !instagramRef.current.contains(event.target))
             ) {
                 setEditingField(null);
             }
@@ -69,7 +78,6 @@ const Navbar = ({ isAdmin, setIsAdmin }) => {
 
     // Handle text updates
     const handleTextChange = (key, value) => {
-        if (value.trim() === "") return;
         setNavData((prev) => ({ ...prev, [key]: value }));
     };
 
@@ -134,7 +142,9 @@ const Navbar = ({ isAdmin, setIsAdmin }) => {
         const handleClickOutside = (event) => {
             if (
                 (editingField === "heading" && headingRef.current && !headingRef.current.contains(event.target)) ||
-                (editingField === "description" && paragraphRef.current && !paragraphRef.current.contains(event.target))
+                (editingField === "description" && paragraphRef.current && !paragraphRef.current.contains(event.target)) ||
+                (editingField === "phone" && phoneRef.current && !phoneRef.current.contains(event.target)) ||
+                (editingField === "instagram" && instagramRef.current && !instagramRef.current.contains(event.target))
             ) {
                 setTimeout(() => setEditingField(null), 100); // Small delay to prevent flickering
             }
@@ -146,8 +156,8 @@ const Navbar = ({ isAdmin, setIsAdmin }) => {
         const formData = new FormData();
         formData.append("name", navData.heading);
         formData.append("description", navData.description);
-        formData.append("phone", "+91 8376962083");
-        formData.append("instagram", "your_instagram_handle");
+        formData.append("phone", navData.phone);
+        formData.append("instagram", navData.instagram);
 
         // Append colors
         Object.keys(navData.colors).forEach((key) => {
@@ -174,9 +184,12 @@ const Navbar = ({ isAdmin, setIsAdmin }) => {
                     logo: data.profilePicture ? `data: image / png; base64, ${data.profilePicture} ` : null,
                     banner: data.bannerPicture ? `data: image / png; base64, ${data.bannerPicture} ` : bannerImg,
                     heading: data.name || "Explore Our Delicious Menu",
+                    phone: data.phone || "+91 9861084271",
+                    instagram: data.instagram || "7juned7",
                     description: data.description || "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
                     colors: data.colors || { dark: "#000000", light: "#ffffff" },
                 });
+                console.log(navData)
             } else {
                 console.error("Failed to fetch profile:", data);
             }
@@ -218,10 +231,43 @@ const Navbar = ({ isAdmin, setIsAdmin }) => {
                     </div>
 
                     {/* Contact Info */}
-                    <ul className="flex gap-6 font-medium mt-2">
-                        <li className="hover:text-gray-300 cursor-pointer">+91 8376962083</li>
+                    <ul className="flex gap-10 font-medium mt-2">
+                        <li className="hover:text-gray-300 cursor-pointer relative">
+                            <div>
+                                {editingField === "phone" ? (
+                                    <input
+                                        ref={phoneRef}
+                                        className="text-2xl font-bold bg-transparent border-b border-gray-300 outline-none"
+                                        autoFocus
+                                        value={navData.phone}
+                                        onChange={(e) => handleTextChange("phone", e.target.value)}
+                                    />
+                                ) : (
+                                    <h2 className="text-2xl font-bold">{navData.phone}</h2>
+                                )}
+                                {isAdmin && <FaEdit className="absolute -top-2 -right-4 text-gray-300 cursor-pointer" onClick={() => setEditingField("phone")} />}
+                            </div>
+                        </li>
                         <li className="hover:text-gray-300 cursor-pointer flex justify-center items-center">
-                            <FaInstagram className="text-lg " />
+                            <div>
+                                {editingField === "instagram" ? (
+                                    <input
+                                        ref={instagramRef}
+                                        className="text-2xl font-bold bg-transparent border-b border-gray-300 outline-none"
+                                        autoFocus
+                                        value={navData.instagram}
+                                        onChange={(e) => handleTextChange("instagram", e.target.value)}
+                                    />
+                                ) : (
+                                    <h2 className="text-2xl font-bold flex items-center gap-2">
+                                        <a href={`https://www.instagram.com/${navData.instagram}`} target="_blank" rel="noopener noreferrer">
+                                            <FaInstagram />
+
+                                        </a>
+                                    </h2>
+                                )}
+                                {isAdmin && <FaEdit className="absolute top-5 right-1 text-gray-300 cursor-pointer" onClick={() => setEditingField("instagram")} />}
+                            </div>
                         </li>
                     </ul>
                 </div>
