@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FaRegWindowClose } from "react-icons/fa";
 
 const AddFood = ({ addFood, flag, setFlag }) => {
@@ -9,38 +9,85 @@ const AddFood = ({ addFood, flag, setFlag }) => {
         image: null,
     });
 
-    // Handle input change
+    const [animate, setAnimate] = useState(false);
+    const [slideIn, setSlideIn] = useState(false);
+
+    useEffect(() => {
+        if (flag) {
+            setAnimate(true);
+            setTimeout(() => setSlideIn(true), 100);
+        } else {
+            setSlideIn(false);
+            setTimeout(() => setAnimate(false), 500);
+        }
+    }, [flag]);
+
     const handleChange = (e) => {
         setFoodData({ ...foodData, [e.target.name]: e.target.value });
     };
 
-    // Handle image upload
     const handleImageUpload = (e) => {
         const file = e.target.files[0];
         if (file) {
             const imageUrl = URL.createObjectURL(file);
-            setFoodData({ ...foodData, image: imageUrl });
+            setFoodData({ ...foodData, image: imageUrl, imageFile: file });
         }
     };
 
-    // Handle form submission
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
+
         if (!foodData.name || !foodData.category || !foodData.price) {
             alert("Please fill in all fields");
             return;
         }
-        addFood(foodData);
-        setFoodData({ name: "", category: "", price: "", image: null });
-        setFlag(false); // Close popup after adding food
+
+        const formData = new FormData();
+        formData.append("name", foodData.name);
+        formData.append("category", foodData.category);
+        formData.append("price", foodData.price);
+        formData.append("availability", true);
+        if (foodData.imageFile) {
+            formData.append("image", foodData.imageFile);
+        }
+
+        try {
+            const response = await fetch("http://localhost:5001/api/additem", {
+                method: "PUT",
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+                },
+                body: formData,
+            });
+
+            let result = null;
+            const text = await response.text();
+            if (text) {
+                result = JSON.parse(text);
+            }
+
+            if (response.ok) {
+                alert("Item added successfully!");
+                addFood(result?.newItem || {});
+                setFoodData({ name: "", category: "", price: "", image: null, imageFile: null });
+                setFlag(false);
+            } else {
+                alert(result?.message || "Failed to add item");
+            }
+        } catch (error) {
+            console.error("Error adding item:", error);
+            alert("Something went wrong!");
+        }
     };
 
-    // Hide component if flag is false
-    if (!flag) return null;
+    if (!animate) return null;
 
     return (
-        <div className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-50 z-50 transition-opacity duration-500 ease-in-out opacity-100">
-            <div className="bg-gray-900 text-white p-6 rounded-lg shadow-lg max-w-md w-full relative transform transition-transform duration-500 ease-in-out scale-100">
+        <div
+            className={`fixed bottom-0 left-0 w-full z-50 transition-transform duration-500 ease-in-out ${slideIn ? "translate-y-0" : "translate-y-full"
+                }`}
+        >
+            <div className="bg-gray-900 text-white p-6 shadow-lg w-full max-w-full rounded-t-lg relative">
                 {/* Header with Close Button */}
                 <div className="flex justify-between items-center mb-4">
                     <h2 className="text-lg font-semibold text-yellow-500">Add New Food Item</h2>
@@ -74,32 +121,19 @@ const AddFood = ({ addFood, flag, setFlag }) => {
                         value={foodData.price}
                         onChange={handleChange}
                         className="px-4 py-2 bg-gray-800 rounded-md appearance-none [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
-                        style={{ MozAppearance: "textfield" }} // Firefox fix
+                        style={{ MozAppearance: "textfield" }}
                     />
 
                     {/* Custom File Upload */}
                     <div className="flex flex-col items-center">
-                        <label
-                            htmlFor="imageUpload"
-                            className="cursor-pointer bg-yellow-500 text-black px-4 py-2 rounded-md"
-                        >
+                        <label htmlFor="imageUpload" className="cursor-pointer bg-yellow-500 text-black px-4 py-2 rounded-md">
                             Upload Image
                         </label>
-                        <input
-                            id="imageUpload"
-                            type="file"
-                            accept="image/*"
-                            onChange={handleImageUpload}
-                            className="hidden"
-                        />
+                        <input id="imageUpload" type="file" accept="image/*" onChange={handleImageUpload} className="hidden" />
 
                         {/* Image Preview */}
                         {foodData.image && (
-                            <img
-                                src={foodData.image}
-                                alt="Preview"
-                                className="mt-3 w-24 h-24 object-cover rounded-md border"
-                            />
+                            <img src={foodData.image} alt="Preview" className="mt-3 w-24 h-24 object-cover rounded-md border" />
                         )}
                     </div>
 

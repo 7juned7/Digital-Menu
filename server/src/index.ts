@@ -289,6 +289,7 @@ app.delete("/api/menu/:itemId", authenticate, async (req: Request, res: Response
 app.get("/api/:id", async (req:Request, res: Response): Promise<any> => {
     try {
         const { id } = req.params;
+        console.log(id)
         
         // Find the restaurant and exclude 'menu' field
         const restaurant = await Restaurant.findById(id).select("-menu -password");
