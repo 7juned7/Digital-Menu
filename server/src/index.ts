@@ -220,6 +220,7 @@ app.put("/api/additem", authenticate, upload.single("image"), async (req: Reques
 app.get("/api/restaurant/:id", async (req:Request, res: Response): Promise<any> => {
     try {
         const { id } = req.params;
+        console.log(id)
         
         // Find the restaurant and exclude 'menu' field
         const restaurant = await Restaurant.findById(id).select("-menu -password");
