@@ -170,11 +170,15 @@ const Navbar = ({ isAdmin, setIsAdmin }) => {
             const data = await response.json();
 
             if (response.ok) {
-
-                console.log("Updated Data:", data);
+                setNavData({
+                    logo: data.profilePicture ? `data: image / png; base64, ${data.profilePicture} ` : null,
+                    banner: data.bannerPicture ? `data: image / png; base64, ${data.bannerPicture} ` : bannerImg,
+                    heading: data.name || "Explore Our Delicious Menu",
+                    description: data.description || "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
+                    colors: data.colors || { dark: "#000000", light: "#ffffff" },
+                });
             } else {
-                console.error("Update Failed:", data);
-
+                console.error("Failed to fetch profile:", data);
             }
         } catch (error) {
             console.error("Error:", error);
