@@ -4,7 +4,8 @@ import { RestaurantContexts } from "./Contexts/RestaurantsContext";
 
 
 import HomePage from "./pages/HomePage";
-import Register from "./pages/Register";
+import Register from "./Pages/Accounts/Register";
+import ForgetPassword from "./Pages/Accounts/ForgetPassword";
 
 function App() {
   const { restaurantId } = useContext(RestaurantContexts);
@@ -15,7 +16,8 @@ function App() {
 
     <Routes>
       <Route path={`/${restaurantId}`} element={<HomePage />} />
-      <Route path="/register" element={<Register />} />
+      <Route path="/" element={<Register />} />
+      <Route path="/accounts/forgetPassword" element={<ForgetPassword />} />
     </Routes>
 
 

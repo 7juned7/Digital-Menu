@@ -2,10 +2,10 @@ import React, { useContext, useEffect, useState } from "react";
 import AddFood from "./AddFood";
 import FoodItem from "./FoodItem"; // Import the new component
 import SkeletonCard from "./Loders/skeletonCard";
-import { RestaurantContexts } from "../Contexts/RestaurantsContext";
+
 
 const MenuSection = ({ isAdmin }) => {
-    const { restaurantId } = useContext(RestaurantContexts);
+
 
     const [theme, setTheme] = useState("maroon");
     const [menuStyle, setMenuStyle] = useState("style-2");
@@ -36,6 +36,7 @@ const MenuSection = ({ isAdmin }) => {
         },
     };
 
+    const restaurantId = localStorage.getItem("restaurantId")
     useEffect(() => {
         const fetchMenu = async () => {
             if (!restaurantId) return;

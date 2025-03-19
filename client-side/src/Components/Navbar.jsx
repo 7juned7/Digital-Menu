@@ -37,7 +37,7 @@ const Navbar = ({ isAdmin, setIsAdmin }) => {
                 });
 
                 const data = await response.json();
-                console.log(data)
+                localStorage.setItem("restaurantId", data._id)
                 if (response.ok) {
                     setNavData({
                         logo: data.profilePicture ? `data: image / png; base64, ${data.profilePicture} ` : null,
